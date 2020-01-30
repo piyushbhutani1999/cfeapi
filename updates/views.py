@@ -45,7 +45,7 @@ class SerializedDetailView(View):
         return JsonResponse(data)
 
 
-class SerializeListView(View):
+class SerializeListView1(View):
     def get(self, request, *args, **kwargs):
         # manual way of serialising the data
         qs = Updates.objects.all()
@@ -55,3 +55,38 @@ class SerializeListView(View):
         # data is in json format but to let know the browser we pass contetn type
         # serialize convert our data to json
         return HttpResponse(data, content_type = 'application/json')
+        # the data returned by this is this, but we dont need all the data..the data is not in good format.
+        # [   
+        #     {"model": "updates.updates", "pk": 1, "fields": {"user": 1, "content": "updates 1"}},  
+        #     {"model": "updates.updates", "pk": 2, "fields": {"user": 1, "content": "updates 2"}}, 
+        #     {"model": "updates.updates", "pk": 3, "fields": {"user": 1, "content": "updates 3"}}
+        # ]
+
+
+# It is another way of serialising queryset
+class SerializeListView2(View):
+    def get(self, request, *args, **kwargs):
+        qs = Updates.objects.all()
+        data = []
+        for obj in qs:
+            data.append(obj)
+        print(data)
+        data = serialize("json", data)
+        # return JsonResponse(data) is wrong.. see next view 
+        return HttpResponse(data, content_type = 'application/json')
+
+# JsonResponse only accept dictionay instance
+class SerializeListView(View):
+    def get(self, request, *args, **kwargs):
+        qs = Updates.objects.all()
+        data = []
+        for obj in qs:
+            data.append(
+                {
+                    "username" : obj.user.username,
+                    "content" : obj.content,
+                }
+            )
+        #inorder to pass a non dict object set safe  =  false, bcz JsonResponse only accepts dictionary object
+        return HttpResponse(JsonResponse(data, safe = False), content_type = 'application/json') 
+
