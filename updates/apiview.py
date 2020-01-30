@@ -29,6 +29,6 @@ class UpdateModelListAPIView(View):
         json_data = qs.serialize()
         return HttpResponse(json_data, content_type='application/json')
 
-    def post(self, request, *args, **kwargs):
+    # def post(self, request, *args, **kwargs):
 
-        return HttpResponse({}, content_type='application/json')
+    #     return HttpResponse({}, content_type='application/json')
