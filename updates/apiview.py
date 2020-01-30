@@ -3,6 +3,7 @@ from .models import Updates
 from django.http import HttpResponse
 from django.views.generic import View
 from .mixins  import CSRFExemptMixin
+from .forms import UpdateModelForm
 
 class UpdateModelDetailAPI(CSRFExemptMixin ,View):
 
@@ -31,5 +32,10 @@ class UpdateModelListAPIView(CSRFExemptMixin ,View):
         return HttpResponse(json_data, content_type='application/json')
 
     def post(self, request, *args, **kwargs):
-        data = json.dumps({"message" : "i am newly created"})
-        return HttpResponse(data, content_type='application/json')
+        form = UpdateModelForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit= True)
+            obj_data = obj.serialize()
+            return HttpResponse(obj_data, content_type='application/json', status = 201)
+        else:
+            return HttpResponse(json.dumps(form.errors), content_type='application/json', status = 404)
