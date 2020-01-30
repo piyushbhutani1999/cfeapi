@@ -76,7 +76,7 @@ class SerializeListView2(View):
         return HttpResponse(data, content_type = 'application/json')
 
 # JsonResponse only accept dictionay instance
-class SerializeListView(View):
+class SerializeListView3(View):
     def get(self, request, *args, **kwargs):
         qs = Updates.objects.all()
         data = []
@@ -90,3 +90,9 @@ class SerializeListView(View):
         #inorder to pass a non dict object set safe  =  false, bcz JsonResponse only accepts dictionary object
         return HttpResponse(JsonResponse(data, safe = False), content_type = 'application/json') 
 
+
+# Another method using serialse as a instance method that put in model
+class SerializeListView(View):
+    def get(self, request, *args, **kwargs):
+        data = Updates.objects.all().serialize()
+        return HttpResponse(data, content_type='application/json')
