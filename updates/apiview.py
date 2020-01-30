@@ -1,9 +1,10 @@
-
+import json
 from .models import Updates
 from django.http import HttpResponse
 from django.views.generic import View
+from .mixins  import CSRFExemptMixin
 
-class UpdateModelDetailAPI(View):
+class UpdateModelDetailAPI(CSRFExemptMixin ,View):
 
     def get(self, request, id, *args, **kwargs):
         obj = Updates.objects.get(id = id)
@@ -22,13 +23,13 @@ class UpdateModelDetailAPI(View):
 
         return HttpResponse({}, content_type='application/json') 
 
-class UpdateModelListAPIView(View):
+class UpdateModelListAPIView(CSRFExemptMixin ,View):
 
     def get(self, request, *args, **kwargs):
         qs = Updates.objects.all()
         json_data = qs.serialize()
         return HttpResponse(json_data, content_type='application/json')
 
-    # def post(self, request, *args, **kwargs):
-
-    #     return HttpResponse({}, content_type='application/json')
+    def post(self, request, *args, **kwargs):
+        data = json.dumps({"message" : "i am newly created"})
+        return HttpResponse(data, content_type='application/json')

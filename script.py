@@ -1,5 +1,6 @@
 import requests #allows yout to do http request
 import json
+
 BASE_URL = "http://127.0.0.1:8000/"
 
 ENDPOINT = "api/updates/"
@@ -56,5 +57,15 @@ def create_update():
     # thats why CFRS token error is throwing
     # now we use method CFRSEXEMPT to let django enter me without any verification
     # but make sure that you will remove this after checking
+
+    # print(r.json())
+    # print(r.headers) --> give info about which method are allowed ex: get,
+    # print(r.text) --> return html page
+
+
+
+    # print(r.json()) --> post method is calling now after defining csrf_exempt
+    # {u'message': u'i am newly created'}
+    
 
 create_update()
