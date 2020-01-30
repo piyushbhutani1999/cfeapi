@@ -35,6 +35,8 @@ class Updates(models.Model):
 
     # defing in model that its manager is Update Manager as we change
     # some builtin functions which it takes from that class
+    # ALSO MEANS THAT NOW OBJECTS ARE BASED ON UPDATEMANAGER 
+    # if we write obj = UpdateManager() then in view data = Updates.obj.all()
     objects = UpdateManager()
 
     def __str__(self):
@@ -42,4 +44,12 @@ class Updates(models.Model):
     
     #define a function here to serialse a single objects
     def serialize(self):
-        return serialize("json", [self], content_type = "application/json")
+        # this function return this :
+        # [ {
+        #       "model": "updates.updates", 
+        #       "pk": 1, 
+        #       "fields": {"user": 1, "content": "updates 1"}
+        #   }
+        # ]
+        data = serialize("json", [self], fields = {'user', 'content'})
+        return data
