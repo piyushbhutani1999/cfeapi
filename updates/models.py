@@ -29,13 +29,28 @@ class UpdateQuerySet(models.QuerySet):
             # print(struct) - -> {u'content': u'updates 1', u'user': 1}
             final_array.append(struct)
         json_list = json.dumps(final_array)
-        
+
+        # print(list(self.values("user", "content"))) -->
+        # [   {u'content': u'updates 1', u'user': 1}, 
+        #     {u'content': u'updates 2', u'user': 1}, 
+        #     {u'content': u'updates 3', u'user': 1}
+        # ]
+
         # print(json_list) - ->
         # [   {"content": "updates 1", "user": 1}, 
         #     {"content": "updates 2", "user": 1},
         #     {"content": "updates 3", "user": 1}
         # ]
         return json_list
+
+        # ANOTHER METHOD
+        
+        # qs = list(self.values("user", "content"))
+        # # JSON DUMPS convert a python object in json ..which is list of dict or single dict object
+        # # whereas SERIALIZE convert list of objects in json format
+        # json_list = json.dumps(qs)
+        # return json_list
+        
         
 
 
