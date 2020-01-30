@@ -94,5 +94,5 @@ class SerializeListView3(View):
 # Another method using serialse as a instance method that put in model
 class SerializeListView(View):
     def get(self, request, *args, **kwargs):
-        data = Updates.objects.get().serialize()
+        data = Updates.objects.all().serialize()
         return HttpResponse(data, content_type='application/json')

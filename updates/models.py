@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import json
 from django.db import models
 from django.conf import settings
 from django.core.serializers import serialize
@@ -51,5 +51,13 @@ class Updates(models.Model):
         #       "fields": {"user": 1, "content": "updates 1"}
         #   }
         # ]
+        # we dont need all these, we only need fields portion which is of our requirement
         data = serialize("json", [self], fields = {'user', 'content'})
-        return data
+
+        #convert json content to python list of dictionary
+
+        struct_of_field = json.loads(data)
+        #[{u'pk': 1, u'model': u'updates.updates', u'fields': {u'content': u'updates 1', u'user': 1}}]
+        
+        # returns only the useful part i.e. fields
+        return struct_of_field[0]['fields']
