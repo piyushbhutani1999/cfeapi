@@ -7,21 +7,21 @@ from django.db import models
 # Create your models here.
 
 
-class StatusQuerySet(models.QuerySet):
-    def serialize(self):
-        qs = self
-        final_array = []
-        for obj in qs:
-            struct = json.loads(obj.serialize())
-            final_array.append(struct)
-        json_list = json.dumps(final_array)
-        return json_list
+# class StatusQuerySet(models.QuerySet):
+#     def serialize(self):
+#         qs = self
+#         final_array = []
+#         for obj in qs:
+#             struct = json.loads(obj.serialize())
+#             final_array.append(struct)
+#         json_list = json.dumps(final_array)
+#         return json_list
 
 
-class StatusManager(models.Manager):
-    # predefined function which is used to get list of queryset
-    def get_queryset(self):
-        return StatusQuerySet(self.model, using=self._db)
+# class StatusManager(models.Manager):
+#     # predefined function which is used to get list of queryset
+#     def get_queryset(self):
+#         return StatusQuerySet(self.model, using=self._db)
 
 
 def upload_status_image(instance, filename):
@@ -38,7 +38,7 @@ class Status(models.Model):
     def __str__(self):
         return str(self.content)
     
-    objects = StatusManager()
+    # objects = StatusManager()
 
     class Meta:
         verbose_name = 'Status post'

@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', SerializeListView.as_view(), name="jsonex"),
     url(r'^api/updates/', include('updates.urls')),
+    url(r'^api/status/', include('status.urls')),
 ]
