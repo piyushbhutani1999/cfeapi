@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView
+from rest_framework import generics
 
 from .models import Status
 from .serializers import StatusSerializer
@@ -25,7 +25,7 @@ class StatusListSearchAPIView(APIView):
         return Response(serialize.data)
 
 
-class StatusAPIView(ListAPIView):
+class StatusAPIView(generics.ListAPIView):
     # all these are predefined , you just only have to add values to them
     # to make django know that what are you calling
     permission_classes = []
@@ -44,3 +44,32 @@ class StatusAPIView(ListAPIView):
         if query is not None:
             qs = qs.filter(content__icontains = query)
         return qs
+
+
+class StatusACreatePIView(generics.CreateAPIView):
+    # all these are predefined , you just only have to add values to them
+    # to make django know that what are you calling
+    permission_classes = []
+    authentication_classes = []
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+
+
+class StatusDetailView(generics.RetrieveAPIView):
+    permission_classes = []
+    authentication_classes = []
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+
+    # you are passing pk in url but you want to lookup to a particular
+    # thing in url you must write
+    # lookup field  = '<what you want to make request look for retrieve info>'
+
+    # you can also define a get_object method
+    # it is predefined in django which is used to retrive object
+
+    # def get_object(self, *args, **kwargs):
+    #     kwargs = self.kwargs
+    #     kw_id = kwargs.get(id)
+    #     return Status.objects.get(id = id)
+
