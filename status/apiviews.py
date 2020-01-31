@@ -73,3 +73,16 @@ class StatusDetailView(generics.RetrieveAPIView):
     #     kw_id = kwargs.get(id)
     #     return Status.objects.get(id = id)
 
+
+class StatusUpdateView(generics.UpdateAPIView):
+    permission_classes = []
+    authentication_classes = []
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+
+
+class StatusDeleteView(generics.DestroyAPIView):
+    permission_classes = []
+    authentication_classes = []
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
